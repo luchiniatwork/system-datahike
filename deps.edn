@@ -1,0 +1,30 @@
+{:paths ["src" "resources"]
+
+ :deps
+ {org.clojure/clojure                             {:mvn/version "1.10.3"}
+  org.clojure/core.async                          {:mvn/version "1.3.618"}
+
+  ;; dependency injection
+  integrant/integrant                             {:mvn/version "0.8.0"}
+
+  ;; Hodur for schema parsing
+  hodur/engine                                    {:mvn/version "0.1.8"}
+  hodur/datomic-schema                            {:mvn/version "0.1.0"}
+
+  ;; Durable storage
+  io.replikativ/datahike                          {:mvn/version "0.4.0"}
+  io.replikativ/datahike-postgres                 {:mvn/version "0.1.0"}
+
+  ;; Logging
+  com.taoensso/timbre                             {:mvn/version "5.1.2"}}
+
+ :aliases
+ {:dev {:extra-paths ["dev"]
+        :extra-deps
+        {integrant/repl                                 {:mvn/version "0.3.1"}}}
+
+  :test {:extra-paths ["test"]
+         :extra-deps
+         {lambdaisland/kaocha                           {:mvn/version "1.0.732"}}
+         :main-opts
+         ["-m" "kaocha.runner"]}}}
