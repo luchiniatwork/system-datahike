@@ -42,13 +42,13 @@
   (create-db* cfg)
   (let [conn (init-db* opts)
         transactor (chan 1024)]
-    (go-loop []
-      (if-let [transaction (<! transactor)]
-        (do (d/transact conn transaction)
-            (recur))
-        (error {:msg "Exiting transactor loop"})))
     {:conn conn
-     :transactor transactor}))
+     :transactor transactor
+     :worker (go-loop []
+               (if-let [transaction (<! transactor)]
+                 (do (d/transact conn transaction)
+                     (recur))
+                 (error {:msg "Exiting transactor loop"})))}))
 
 
 (defmethod ig/halt-key! ::transactor-conn [_ conn]
@@ -67,5 +67,5 @@
 
 
 (defmethod ig/halt-key! ::conn [_ conn]
-  (info {:msg "Halting DB (Datahike with transactor)"})
+  (info {:msg "Halting DB (Datahike)"})
   (d/release conn))
