@@ -30,7 +30,8 @@
 (defn ^:private init-db* [{:keys [cfg schema seed]}]
   (let [conn (d/connect cfg)]
     (d/transact conn schema)
-    (d/transact conn seed)
+    (when seed
+      (d/transact conn seed))
     conn))
 
 
