@@ -22,7 +22,9 @@
   (schema-initializer resource hodur-datomic/schema))
 
 
-(defn ^:private create-db* [cfg]
+(defn ^:private create-db* [{:keys [cfg reset-db?]}]
+  (when (and (d/database-exists? cfg) reset-db?)
+    (d/delete-database cfg))
   (when (not (d/database-exists? cfg))
     (d/create-database cfg)))
 
@@ -35,12 +37,13 @@
     conn))
 
 
-(defmethod ig/init-key ::conn [_ {:keys [cfg schema seed] :as opts}]
+(defmethod ig/init-key ::conn [_ {:keys [cfg schema seed reset-db?]
+                                  :as opts}]
   (info {:msg "Initializing DB (Datahike)"
          :schema schema
          :cfg cfg
          :seed seed})
-  (create-db* cfg)
+  (create-db* opts)
   (init-db* opts))
 
 
