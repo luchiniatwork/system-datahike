@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.clojars.luchiniatwork</groupId>
   <artifactId>system-datahike</artifactId>
-  <version>0.0.2</version>
+  <version>0.0.3</version>
   <name>system-datahike</name>
   <dependencies>
     <dependency>
@@ -14,7 +14,7 @@
     <dependency>
       <groupId>hodur</groupId>
       <artifactId>engine</artifactId>
-      <version>0.1.8</version>
+      <version>0.1.9</version>
     </dependency>
     <dependency>
       <groupId>hodur</groupId>
@@ -39,12 +39,12 @@
     <dependency>
       <groupId>io.replikativ</groupId>
       <artifactId>datahike</artifactId>
-      <version>0.4.0</version>
+      <version>0.4.1480</version>
     </dependency>
     <dependency>
       <groupId>org.clojure</groupId>
       <artifactId>core.async</artifactId>
-      <version>1.3.618</version>
+      <version>1.5.648</version>
     </dependency>
   </dependencies>
   <packaging>clojure</packaging>
