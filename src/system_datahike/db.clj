@@ -35,29 +35,6 @@
     conn))
 
 
-(defmethod ig/init-key ::transactor-conn [_ {:keys [cfg schema seed] :as opts}]
-  (info {:msg "Initializing DB (Datahike with transactor)"
-         :schema schema
-         :cfg cfg
-         :seed seed})
-  (create-db* cfg)
-  (let [conn (init-db* opts)
-        transactor (chan 1024)]
-    {:conn conn
-     :transactor transactor
-     :worker (go-loop []
-               (if-let [transaction (<! transactor)]
-                 (do (d/transact conn transaction)
-                     (recur))
-                 (error {:msg "Exiting transactor loop"})))}))
-
-
-(defmethod ig/halt-key! ::transactor-conn [_ conn]
-  (info {:msg "Halting DB (Datahike with transactor)"})
-  (close! (:transactor conn))
-  (d/release (:conn conn)))
-
-
 (defmethod ig/init-key ::conn [_ {:keys [cfg schema seed] :as opts}]
   (info {:msg "Initializing DB (Datahike)"
          :schema schema
