@@ -28,18 +28,21 @@
   (when (not (d/database-exists? cfg))
     (d/create-database cfg)
     (let [conn (d/connect cfg)]
-      (d/transact conn schema)
-      conn)))
+      (d/transact conn schema))))
 
 
-(defn ^:private init-db* [{:keys [cfg schema seed]}]
+(defn ^:private init-db* [{:keys [cfg schema seed
+                                  reapply-schema?]}]
   (let [conn (d/connect cfg)]
+    (when reapply-schema?
+      (d/transact conn schema))
     (when seed
       (d/transact conn seed))
     conn))
 
 
-(defmethod ig/init-key ::conn [_ {:keys [cfg schema seed reset-db?]
+(defmethod ig/init-key ::conn [_ {:keys [cfg schema seed
+                                         reset-db? reapply-schema?]
                                   :as opts}]
   (info {:msg "Initializing DB (Datahike)"
          :schema schema
