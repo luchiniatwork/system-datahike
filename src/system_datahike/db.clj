@@ -22,16 +22,18 @@
   (schema-initializer resource hodur-datomic/schema))
 
 
-(defn ^:private create-db* [{:keys [cfg reset-db?]}]
+(defn ^:private create-db* [{:keys [cfg schema reset-db?]}]
   (when (and (d/database-exists? cfg) reset-db?)
     (d/delete-database cfg))
   (when (not (d/database-exists? cfg))
-    (d/create-database cfg)))
+    (d/create-database cfg)
+    (let [conn (d/connect cfg)]
+      (d/transact conn schema)
+      conn)))
 
 
 (defn ^:private init-db* [{:keys [cfg schema seed]}]
   (let [conn (d/connect cfg)]
-    (d/transact conn schema)
     (when seed
       (d/transact conn seed))
     conn))
