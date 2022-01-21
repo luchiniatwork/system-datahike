@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>net.clojars.luchiniatwork</groupId>
   <artifactId>system-datahike</artifactId>
-  <version>0.0.5</version>
+  <version>0.0.6</version>
   <name>system-datahike</name>
   <dependencies>
     <dependency>
@@ -40,6 +40,11 @@
       <groupId>io.replikativ</groupId>
       <artifactId>datahike</artifactId>
       <version>0.4.1480</version>
+    </dependency>
+    <dependency>
+      <groupId>net.clojars.luchiniatwork</groupId>
+      <artifactId>anomalies</artifactId>
+      <version>0.0.2</version>
     </dependency>
     <dependency>
       <groupId>org.clojure</groupId>
