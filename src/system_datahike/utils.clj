@@ -88,11 +88,11 @@
 
 (defn map-cursor [{:keys [order-by] :as opts} tx coll]
   (let [{:keys [phase1 phase2]} (slice-phases opts)]
-    (map-indexed
-     (fn [idx item]
-       (assoc item :cursor
-              (encode-cursor {:tx tx
-                              :order-by order-by
-                              :pointer (+ (:drop phase1)
-                                          (:drop phase2)
-                                          (inc idx))}))))))
+    (->> coll
+         (map-indexed (fn [idx item]
+                        (assoc item :cursor
+                               (encode-cursor {:tx tx
+                                               :order-by order-by
+                                               :pointer (+ (:drop phase1)
+                                                           (:drop phase2)
+                                                           (inc idx))})))))))
